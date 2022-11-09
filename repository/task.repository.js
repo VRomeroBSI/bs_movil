@@ -41,9 +41,30 @@ class TaskRepository {
 
     async createForm(form) {
         let data = {};
-
+        const { Op } = require("sequelize");
         try {
-            data = await this.db.tasks.create(form);
+            const nameFormOnTable = await this.db.tasks.findAll({
+                attibutes:['nameform'],
+                where:{
+                    [Op.and]:[
+                            {id_company : form.id_company},
+                            {nameform:form.nameform}
+                        ]                    
+                }
+            });
+           
+            if(Object.entries(nameFormOnTable).length===0){
+                try{
+                    console.log('CREADO');
+                    data = await this.db.tasks.create(form);
+                }catch(err){
+                    logger.error('Error::' + err);    
+                }
+            }
+            else{
+                return 'Form name for this company already exist';
+            }
+
         } catch(err) {
             logger.error('Error::' + err);
         }
