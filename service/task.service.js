@@ -4,21 +4,25 @@ class TaskService {
 
     constructor() {}
 
-    async getTasks() {
-        return await taskRepository.getTasks();
+    async getForms() {
+        return await taskRepository.getForms();
     }
 
-    async createTask(task) {
-        return await taskRepository.createTask(task);
+    async getForm(formId) {
+        return await taskRepository.getForm(formId);
     }
 
-    async updateTask(task) {
-        return await taskRepository.updateTask(task);
+    async createForm(task) {
+        return await taskRepository.createForm(task);
     }
 
-    async deleteTask(taskId) {
-        return await taskRepository.deleteTask(taskId);
-    }
+    // async updateTask(task) {
+    //     return await taskRepository.updateTask(task);
+    // }
+
+    // async deleteTask(taskId) {
+    //     return await taskRepository.deleteTask(taskId);
+    // }
 
 }
 

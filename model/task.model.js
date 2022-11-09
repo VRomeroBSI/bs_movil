@@ -1,38 +1,37 @@
 module.exports = (sequelize, DataTypes, Model) => {
 
-    class Tasks extends Model {}
+    class Form_BSM extends Model {}
 
-    Tasks.init({
+    Form_BSM.init({
         // Model attributes are defined here
-        name: {
-          type: DataTypes.STRING,
-          allowNull: false
+        id:{
+          type:DataTypes.INTEGER,
+          autoIncrement:true,
+          primaryKey:true
         },
-        description: {
+        id_company: {
+          type: DataTypes.INTEGER
+          // allowNull defaults to true
+        },
+        nameform: {
           type: DataTypes.STRING
           // allowNull defaults to true
         },
-        createdate: {
-          type: DataTypes.DATE
-          // allowNull defaults to true
-        },
-        updateddate: {
-            type: DataTypes.DATE
+        setquestions: {
+            type: DataTypes.JSONB
             // allowNull defaults to true
         },
-        createdby: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        updatedby: {
-            type: DataTypes.STRING
-            // allowNull defaults to true
+        status: {
+            type: DataTypes.INTEGER,
+           // allowNull: false
         },
       }, {
         // Other model options go here
+        timestamps: false,
+        freezeTableName: true,
         sequelize, // We need to pass the connection instance
-        modelName: 'tasks' // We need to choose the model name
+        modelName: 'form_bsm' // We need to choose the model name
       });
       
-      return Tasks;
+      return Form_BSM;
 }

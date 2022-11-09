@@ -4,20 +4,24 @@ const logger = require('../logger/api.logger');
 const connect = () => {
 
     const hostName = process.env.HOST;
-    const userName = process.env.USER;
-    const password = process.env.PASSWORD;
-    const database = process.env.DB;
-    const dialect = process.env.DIALECT;
+    const userName = "usertest";//process.env.USER;
+    const password = "123456";//process.env.PASSWORD;
+    const database = 'postgres';
+    const dialect = 'postgres';
+    const port=5432;
 
     const sequelize = new Sequelize(database, userName, password, {
         host: hostName,
         dialect: dialect,
-        operatorsAliases: false,
+        port : port,
+        //operatorsAliases: false,
         pool: {
-            max: 10,
+            max: 20,
             min: 0,
             acquire: 20000,
-            idle: 5000
+            idle: 5000,
+            idleTimeoutMillis:30000,
+            connectionTimeoutMillis:2000,
         }
     });
 

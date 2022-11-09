@@ -1,26 +1,33 @@
 const taskService  = require('../service/task.service');
 const logger = require('../logger/api.logger');
 
-class TodoController {
+class TaskController {
 
-    async getTasks() {
-        logger.info('Controller: getTasks')
-        return await taskService.getTasks();
+    async getForms() {
+        logger.info('Controller: getForms')
+        return await taskService.getForms();
     }
 
-    async createTask(task) {
-        logger.info('Controller: createTask', task);
-        return await taskService.createTask(task);
+
+    async getForm(formId) {
+        logger.info('Controller: getForm', formId)
+        return await taskService.getForm(formId);
+    }
+    
+
+    async createForm(task) {
+        logger.info('Controller: createForm', task);
+        return await taskService.createForm(task);
     }
 
-    async updateTask(task) {
-        logger.info('Controller: updateTask', task);
-        return await taskService.updateTask(task);
-    }
+    // async updateTask(task) {
+    //     logger.info('Controller: updateTask', task);
+    //     return await taskService.updateTask(task);
+    // }
 
-    async deleteTask(taskId) {
-        logger.info('Controller: deleteTask', taskId);
-        return await taskService.deleteTask(taskId);
-    }
+    // async deleteTask(taskId) {
+    //     logger.info('Controller: deleteTask', taskId);
+    //     return await taskService.deleteTask(taskId);
+    // }
 }
-module.exports = new TodoController();
+module.exports = new TaskController();

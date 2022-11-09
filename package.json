@@ -1,7 +1,7 @@
 {
   "name": "nodejs-restapi-mongo",
   "version": "1.0.0",
-  "description": "Example Project on how to build and develop REST API with NodeJS and MongoDB",
+  "description": "Project for a formulari",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./server.js localhost 3081",
@@ -19,11 +19,15 @@
   },
   "homepage": "https://github.com/bbachi/nodejs-restapi-mongo#readme",
   "dependencies": {
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "express": "^4.17.1",
-    "pg": "^8.7.3",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
     "pine": "^1.1.1",
-    "sequelize": "^6.17.0"
+    "save": "^2.9.0",
+    "sequelize": "^6.25.3",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
