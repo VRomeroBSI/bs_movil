@@ -39,17 +39,32 @@ class TaskRepository {
         }
     }
 
-    async createForm(task) {
+    async createForm(form) {
         let data = {};
 
         try {
-            data = await this.db.tasks.create(task);
+            data = await this.db.tasks.create(form);
         } catch(err) {
             logger.error('Error::' + err);
         }
         return data;
     }
 
+    async getFormsCompany(idCompany){
+        const { Op } = require("sequelize");
+        try{
+            const forms = await this.db.tasks.findAll({
+                where:{
+                    id_company: {
+                        [Op.eq]:idCompany
+                    }
+                }
+            });
+            return forms;
+        }catch(err){
+            logger.error('Error::' + err);
+        }
+    }
     // async updateTask(task) {
     //     let data = {};
     //     try {

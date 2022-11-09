@@ -12,8 +12,12 @@ class TaskService {
         return await taskRepository.getForm(formId);
     }
 
-    async createForm(task) {
-        return await taskRepository.createForm(task);
+    async getFormsCompany(idCompany) {
+        return await taskRepository.getFormsCompany(idCompany);
+    }
+
+    async createForm(form) {
+        return await taskRepository.createForm(form);
     }
 
     // async updateTask(task) {

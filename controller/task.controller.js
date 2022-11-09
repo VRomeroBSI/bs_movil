@@ -15,9 +15,14 @@ class TaskController {
     }
     
 
-    async createForm(task) {
-        logger.info('Controller: createForm', task);
-        return await taskService.createForm(task);
+    async createForm(form) {
+        logger.info('Controller: createForm', form);
+        return await taskService.createForm(form);
+    }
+
+    async getFormsCompany(idCompany){
+        logger.info('Controller: getFormsCompany', idCompany);
+        return await taskService.getFormsCompany(idCompany);
     }
 
     // async updateTask(task) {
