@@ -1,17 +1,15 @@
+const {builtQueryInsert} = require ('../utils/utils.js');
 const { connect } = require('../config/db.config');
 const logger = require('../logger/api.logger');
 
-//const db = require('./config/db_pool')
-
-
-class TaskRepository {
+class FormRepository {
 
     db = {};
 
     constructor() {
         this.db = connect();
         // For Development
-        this.db.sequelize.sync({alter:true}).then(() => {
+        this.db.sequelize.sync({}).then(() => {
             console.log("Drop and re-sync db.");
         });
     }
@@ -19,7 +17,7 @@ class TaskRepository {
     async getForms() {
         
         try {
-            const forms = await this.db.tasks.findAll();
+            const forms = await this.db.forms.findAll();
             console.log('Forms:::', forms);
             return forms;
         } catch (err) {
@@ -30,7 +28,7 @@ class TaskRepository {
     async getForm(formId) {
         
         try {
-            const form = await this.db.tasks.findByPk(formId);
+            const form = await this.db.forms.findByPk(formId);
             console.log('Form:::', form);
             return form;
         } catch (err) {
@@ -43,7 +41,7 @@ class TaskRepository {
         let data = {};
         const { Op } = require("sequelize");
         try {
-            const nameFormOnTable = await this.db.tasks.findAll({
+            const nameFormOnTable = await this.db.forms.findAll({
                 attibutes:['nameform'],
                 where:{
                     [Op.and]:[
@@ -55,14 +53,13 @@ class TaskRepository {
            
             if(Object.entries(nameFormOnTable).length===0){
                 try{
-                    console.log('CREADO');
-                    data = await this.db.tasks.create(form);
+                    data = await this.db.forms.create(form);
                 }catch(err){
                     logger.error('Error::' + err);    
                 }
             }
             else{
-                return 'Form name for this company already exist';
+                return 'Form name for this company already exist',nameFormOnTable;
             }
 
         } catch(err) {
@@ -71,10 +68,11 @@ class TaskRepository {
         return data;
     }
 
+
     async getFormsCompany(idCompany){
         const { Op } = require("sequelize");
         try{
-            const forms = await this.db.tasks.findAll({
+            const forms = await this.db.forms.findAll({
                 where:{
                     id_company: {
                         [Op.eq]:idCompany
@@ -86,6 +84,63 @@ class TaskRepository {
             logger.error('Error::' + err);
         }
     }
+
+    async getFormByIdCompany(idCompany, nameform){
+        const { QueryTypes } = require("sequelize");
+        const { Op } = require("sequelize");
+        try{
+            const forms = await this.db.forms.findAll({
+                where:{
+                        [Op.and]:[
+                            {id_company : idCompany},
+                            {nameform: nameform}
+                        ] 
+                    }                
+            });
+            return forms;
+        }catch(err){
+            logger.error('Error::' + err);
+        }
+    }
+    async createAnswer(answers){
+    
+        let queryInsert='';
+
+    const { Op } = require("sequelize");
+        try{
+            const tableName = await this.db.forms.findOne({
+                raw: true,
+                attributes: ['tablename'],
+                where:{
+                    [Op.and]:[
+                        {id_company : answers.id_empresa},
+                        {nameform: answers.formulario}
+                    ] 
+                }     
+            })
+            
+            if(tableName){  
+                queryInsert= builtQueryInsert(answers,tableName.tablename);
+                try{
+                    
+                    const inserted= await this.db.sequelize.query(queryInsert);
+                    
+
+                }catch(err){
+                    logger.error('Error::' + err);
+                }
+            }
+            else{
+                logger.info
+            }
+            return tableName;
+
+        }catch(err){
+            logger.error('Error::' + err);
+        }
+        
+    }
+
     // async updateTask(task) {
     //     let data = {};
     //     try {
@@ -118,4 +173,4 @@ class TaskRepository {
 
 }
 
-module.exports = new TaskRepository();
+module.exports = new FormRepository();

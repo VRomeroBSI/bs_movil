@@ -14,7 +14,6 @@ const connect = () => {
         host: hostName,
         dialect: dialect,
         port : port,
-        //operatorsAliases: false,
         pool: {
             max: 20,
             min: 0,
@@ -28,7 +27,7 @@ const connect = () => {
     const db = {};
     db.Sequelize = Sequelize;
     db.sequelize = sequelize;
-    db.tasks = require("../model/task.model")(sequelize, DataTypes, Model);
+    db.forms = require("../model/form.model")(sequelize, DataTypes, Model);
 
     return db;
 
