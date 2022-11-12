@@ -3,9 +3,9 @@
     "info": {
         "description": "This is a simple example NodeJS API project to demonstrate Swagger Documentation",
         "version": "1.0.0",
-        "title": "Tasks API",
+        "title": "BS_Movil API",
         "contact": {
-            "email": "abc@gmail.com"
+            "email": "vromero@bsigeonet.com.mx"
         },
         "license": {
             "name": "Apache 2.0",
@@ -19,14 +19,14 @@
         "/forms" : {
             "get" : {
                 "summary" : "Get all the forms",
-                "description": "Get all the forms",
+                "description": "Get all the forms and all its information",
                 "produces": ["application/json"],
                 "parameters": [],
                 "responses": {
                     "200": {
                         "description": "successful operation",
                         "schema": {
-                            "type": "array",
+                            "type": "json",
                             "items": {
                                 "$ref": "#/definitions/todosResponse"
                             }
@@ -49,19 +49,66 @@
                 "consumes": ["application/json"],
                 "parameters": [
                     {
-                        "in": "body",
-                        "name": "body",
-                        "description": "task object",
+                        "name": "id",
+                        "in": "path",
                         "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "id_company",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "nameform",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },{
+                        "name": "setquestions",
+                        "in": "path",
+                        "required": true,
+                        "type": "json"
+                    },{
+                        "name": "status",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    } 
+                    ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "task" : {
-                                    "type": "object",
-                                    "$ref": "#/definitions/Task"
-                                } 
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/todosResponse"
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/forms/company/{id}" : {
+            "get" : {
+                "summary" : "Get all forms by id's company",
+                "description": "Get all the information forms by id's company",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Is necesary an id_company to get all the forms by company.",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -83,13 +130,89 @@
                 }
             }
         },
-        "/api/forms/company/id" : {
+        "/api/form/company/{id}/nameform/{nameform}" : {
             "get" : {
-                "summary" : "Get all forms by id's company",
-                "description": "Get all forms by id's company",
+                "summary" : "Get a form by id of the company and the name of the form",
+                "description": "Get all the information of forms ",
                 "produces": ["application/json"],
                 "consumes": ["application/json"],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "To get the forms by company is necesary the id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "nameform",
+                        "in": "path",
+                        "description": "To get an especifict form is necesary the nameform",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/todosResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/answer" : {
+            "post" : {
+                "summary" : "Adds the answers to its respectively table",
+                "description": "Adds a set of responses ",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters":  [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "id_company",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "nameform",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "encuestador",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },{
+                        "name": "respuestas",
+                        "in": "path",
+                        "required": true,
+                        "type": "json"
+                    },{
+                        "name": "coordenadas",
+                        "in": "path",
+                        "required": true,
+                        "type": "json"
+                    } 
+                    ],
                 "responses": {
                     "200": {
                         "description": "successful operation",

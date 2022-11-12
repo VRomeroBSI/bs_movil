@@ -1,14 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-//const pool = require('./config/db_pool')
-require('dotenv').config()
-
-const taskController = require('./controller/task.controller')
-const fs = require('fs')
+const formController = require('./controller/form.controller');
+const fs = require('fs');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger.json');
 const customCss = fs.readFileSync((process.cwd()+"/swagger/swagger.css"), 'utf8');
-
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
@@ -18,21 +15,29 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {customCs
 
 
 app.get('/api/forms', (req, res) => {
-    taskController.getForms().then(data => res.json(data));
+    formController.getForms().then(data => res.json(data));
 });
 
-app.get('/api/form/:id', (req, res) => {
-    taskController.getForm(req.params.id).then(data => res.json(data));
+app.get('/api/form/:idCompany', (req, res) => {
+    formController.getForm(req.params.id).then(data => res.json(data));
 })
 
 app.get('/api/forms/company/:id', (req, res) =>{
-    console.log(req.params.id)
-    taskController.getFormsCompany(req.params.id).then(data => res.json(data));
+    formController.getFormsCompany(req.params.id).then(data => res.json(data));
 })
 
 
 app.post('/api/form', (req, res) => {   
-    taskController.createForm(req.body).then(data => res.json(data));
+    formController.createForm(req.body).then(data => res.json(data));
+});
+
+
+app.get('/api/form/company/:id/nameform/:nameform', (req, res) =>{
+    formController.getFormByIdCompany(req.params.id, req.params.nameform).then(data => res.json(data));
+});
+
+app.post('/api/answers',(req, res)=>{
+    formController.createAnswer(req.body).then(data => res.json(data));
 });
 
 // app.put('/api/forms', (req, res) => {
